@@ -438,11 +438,11 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
     \left\{
         \begin{aligned}
             & 2 - w > 0 \\
-            & w \geq 0
+            & w \geqslant 0
         \end{aligned}
     \right.
 \end{equation*}
-同时成立，即 $0 \leq w < 2$ 时算法是最优的。
+同时成立，即 $0 \leqslant w < 2$ 时算法是最优的。
 
 当$w = 0$时，$f(n) = 2g(n)$，算法退化为（带有常系数的）一致代价搜索；当$w = 1$时，$f(n) = g(n) + h(n)$，算法即A$^*$搜索；当$w = 2$时，算法是（带有常系数的）贪婪最佳优先搜索。
 
@@ -467,11 +467,11 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 \end{figure}
 其启发式函数为$h = 1 + 1 = 2$，高于其实际的解代价1。
 \begin{proof}
-    设$h$被高估的部分不超过$c$，即$h(n) \leq h^*(n) + c$，则对于最优解路径上的任意结点$n$，有
+    设$h$被高估的部分不超过$c$，即$h(n) \leqslant h^*(n) + c$，则对于最优解路径上的任意结点$n$，有
     \begin{align*}
         f(n) = & g(n) + h(n) \\
-        \leq & g(n) + h^*(n) + c \\
-        \leq & C^* + c
+        \leqslant & g(n) + h^*(n) + c \\
+        \leqslant & C^* + c
     \end{align*}
     即A$^*$算法返回的解代价比最优解代价多出的部分也不超过$c$。
 \end{proof}
@@ -480,15 +480,15 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 证明如果启发式是一致的，它一定是可采纳的。构造一个非一致的可采纳启发式。
 
 \paragraph{解}
-设启发式$h(n)$是一致的，即对于每个结点$n$和通过任一行动$a$生成的$n$的每个后继结点$n'$，从结点$n$到达目标的估计代价不大于从$n$到$n'$的单步代价与从$n'$到达目标的估计代价之和：$$h(n) \leq c(n,\, a,\, n') + h(n')$$
+设启发式$h(n)$是一致的，即对于每个结点$n$和通过任一行动$a$生成的$n$的每个后继结点$n'$，从结点$n$到达目标的估计代价不大于从$n$到$n'$的单步代价与从$n'$到达目标的估计代价之和：$$h(n) \leqslant c(n,\, a,\, n') + h(n')$$
 \begin{proof}
     对从$n$到任何目标的最短路径上的结点数$k$进行归纳：
 
-    当$k = 1$时，取目标结点即$n'$，则$h(n) \leq c(n,\, a,\, n') + h(n')$成立。
+    当$k = 1$时，取目标结点即$n'$，则$h(n) \leqslant c(n,\, a,\, n') + h(n')$成立。
 
-    当$k \leq 1$时，假设$h(n')$是可采纳的，则有
+    当$k \leqslant 1$时，假设$h(n')$是可采纳的，则有
     \begin{equation*}
-        h(n) \leq c(n,\, a,\, n') + h(n') \leq c(n,\, a,\, n') + h^*(n') = h^*(n)
+        h(n) \leqslant c(n,\, a,\, n') + h(n') \leqslant c(n,\, a,\, n') + h^*(n') = h^*(n)
     \end{equation*}
     即$h(n)$对$k + 1$仍是可采纳的。
 
@@ -523,13 +523,13 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
     \item 取$C_2 = 0$
     \item 选择变量$X_1$，其现在只有一个可能的值
     \item 取$C_1 = 0$
-    \item 选择变量$O$，由于$O + O = R + 10 \times C_1 = R \leq 9$，且$T + T = O + 10 \times F = O + 10$，因此$O$是小于5的偶数，这是最严格的约束
+    \item 选择变量$O$，由于$O + O = R + 10 \times C_1 = R \leqslant 9$，且$T + T = O + 10 \times F = O + 10$，因此$O$是小于5的偶数，这是最严格的约束
     \item 取$O = 4$
     \item 选择变量$R$，其现在只有一个可能的值
     \item 取$R = 8$
     \item 选择变量$T$，其现在只有一个可能的值
     \item 取$T = 7$
-    \item 选择变量$U$，由于$W + W = U + 10 \times C_2 = U \leq 9$，因此$U$是小于9的偶数
+    \item 选择变量$U$，由于$W + W = U + 10 \times C_2 = U \leqslant 9$，因此$U$是小于9的偶数
     \item 取$U = 6$，由前向检验限制，不同的字母表示不同的数字，因此$U$不能取$4$或$8$
     \item 选择变量$W$，其现在只有一个可能的值
     \item 取$W = 3$
