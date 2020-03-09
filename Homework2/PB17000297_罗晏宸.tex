@@ -10,6 +10,9 @@
 \usepackage{subfigure}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{geometry}
 \usetikzlibrary{positioning}
 \usetikzlibrary[arrows, shapes, chains]
 \newcounter{row}
@@ -29,9 +32,9 @@
 \titleformat{\section}[block]{\LARGE\scshape}{\arabic{section}}{1em}{}[]
 
 \tikzset{
-    normal/.style = {ellipse, draw = black, text ragged, minimum width = 6em, scale = 0.35},
-    expand/.style = {ellipse, draw = red!70!black, text ragged, minimum width = 6em, black, fill = red!30!white, scale = 0.35},
-    length/.style = {text ragged, scale = 0.25},
+    normal/.style = {ellipse, draw = black, text ragged, minimum width = 6em, scale = 0.5},
+    expand/.style = {ellipse, draw = red!70!black, text ragged, minimum width = 6em, black, fill = red!30!white, scale = 0.5},
+    length/.style = {text ragged, scale = 0.4},
     level distance = 5em,
     level 1/.style = {sibling distance = 60em},
     level 2/.style = {sibling distance = 30em},
@@ -70,12 +73,13 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 \end{table}
 
 使用直线距离启发式，应用A$^*$算法，过程如下：
+\newgeometry{left = 1cm, right = 1cm, top = 0cm, bottom = 0.5cm}
 \begin{figure}
     \centering
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj};
 
             \node [length, below = 0.2em of L] (dL) {$244 = 0 + 244$};
@@ -84,7 +88,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [expand] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}}
                 child {node [normal] (T) {Timisoara}};
@@ -96,7 +100,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [expand] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}}
@@ -112,7 +116,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [expand] (L2) {Lugoj}
@@ -132,7 +136,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [expand] (L2) {Lugoj}
@@ -150,10 +154,9 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
         \end{tikzpicture}
     }
 
-    \centering
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -177,7 +180,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -204,10 +207,15 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
             \node [length, below = 0.2em of T] (dT) {$440 = 111 + 329$};
         \end{tikzpicture}
     }
+    \caption{使用A$^*$搜索应用直线距离启发式求解从 Lugoj 到 Bucharest 问题}
+    \label{figure:1}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -238,13 +246,10 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
             \node [length, below = 0.2em of A] (dA) {$595 = 229 + 366$};
         \end{tikzpicture}
     }
-\end{figure}
 
-\begin{figure}[h]
-    \centering
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -282,7 +287,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -324,7 +329,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -370,7 +375,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
     \subfigure
     {
-        \begin{tikzpicture}[scale = 0.3]
+        \begin{tikzpicture}[scale = 0.45]
             \node [normal] (L) {Lugoj}
                 child {node [normal] (M) {Mehadia}
                     child {node [normal] (L2) {Lugoj}
@@ -419,9 +424,10 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
             \node [length, below = 0.2em of A] (dA) {$595 = 229 + 366$};
         \end{tikzpicture}
     }
-    \caption{使用A$^*$搜索应用直线距离启发式求解从 Lugoj 到 Bucharest 问题}
-    \label{figure:1}
+    \caption{使用A$^*$搜索应用直线距离启发式求解从 Lugoj 到 Bucharest 问题（续）}
+    \label{figure:2}
 \end{figure}
+\restoregeometry
 
 \section{Exercise 3.25}
 \textbf{启发式路径算法}（Pohl，1977）是一种最佳优先搜索，它的评估函数是$f(n) = (2 - w)g(n) + wh(n)$，假设 $h$ 是可采纳的。$w$取什么值能保证算法是最优的？当$w = 0,\ w = 1,\ w = 2$时，分别是什么搜索算法？
@@ -445,7 +451,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 
 \paragraph{解}
 启发式函数为不在位的棋子数与所有棋子到其目标位置的曼哈顿距离和之和，即$h = h_1 + h_2$。对于如图\ref{figure:2}的状态
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}[scale=.5]
         \begin{scope}
@@ -491,5 +497,79 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
 在 Romania 问题中，如果使用到达 Bucharest 的最少经过一个中间结点的路径距离减去到达后继结点的最大直线距离作为启发式，这个启发式是非一致的，它并不满足三角不等式，但它仍不会给出过高的估计，因此是可采纳的。
 
 \section{Exercise 6.5}
+使用带前向检验、MRV和最少约束值启发式的回溯算法手动求解图中的密码算术问题
+\begin{figure}[h]
+    {
+        \centering
+        \subfigure[]{
+            \includegraphics[]{Figure6-2(a).png}
+        }
+        \subfigure[]{
+            \includegraphics[]{Figure6-2(b).png}
+        }
+        \caption{}
+    }
+    (a) 密码算术问题。不同字母表示不同的数字；目标是找到能够使加法算式成立的代替字母的数字，附加约束是最前面的数字不能是0。 (b) 密码算术的约束超图，给出的是 \textit{Alldiff} 约束（最上方的方框）和每列的相加约束（中间的四个方框）。变量$C_1$、$C_2$、$C_3$表示每列进位
+\end{figure}
 
+\paragraph{解}
+手动求解过程如下：
+\begin{enumerate}[i]
+    \item 选择变量$C_3$，其表示进位，因此有$C_3 \in \{0,\, 1\}$
+    \item 取$C_3 = 1$，由前向检验限制，附加约束是最前面的数字不能是0，因此$F$不能取0，故$C_3$不能取0
+    \item 选择变量$F$，其只有一个可能的值
+    \item 取$F = 1$
+    \item 选择变量$C_2$，其有两个可能的值
+    \item 取$C_2 = 0$
+    \item 选择变量$X_1$，其现在只有一个可能的值
+    \item 取$C_1 = 0$
+    \item 选择变量$O$，由于$O + O = R + 10 \times C_1 = R \leq 9$，且$T + T = O + 10 \times F = O + 10$，因此$O$是小于5的偶数，这是最严格的约束
+    \item 取$O = 4$
+    \item 选择变量$R$，其现在只有一个可能的值
+    \item 取$R = 8$
+    \item 选择变量$T$，其现在只有一个可能的值
+    \item 取$T = 7$
+    \item 选择变量$U$，由于$W + W = U + 10 \times C_2 = U \leq 9$，因此$U$是小于9的偶数
+    \item 取$U = 6$，由前向检验限制，不同的字母表示不同的数字，因此$U$不能取$4$或$8$
+    \item 选择变量$W$，其现在只有一个可能的值
+    \item 取$W = 3$
+    \item 得到一个解：$F = 1,\ T = 7,\ U = 6,\ W = 3,\ R = 8,\ O = 4$
+\end{enumerate}
+
+\section{Exercise 6.11}
+用 AC-3 算法说明弧相容对图中问题能够检测出部分赋值$\{WA = red,\ V = blue\}$的不相容
+\begin{figure}[h]
+    {
+        \centering
+        \subfigure[]{
+            \includegraphics[scale = 0.6]{Figure6-1(a).png}
+        }
+        \subfigure[]{
+            \includegraphics[scale = 0.6]{Figure6-1(b).png}
+        }
+        \caption{着色问题}
+    }
+    (a) 澳大利亚的洲和行政区。视此地图着色问题为约束满足问题（CSP）。目标是对每个区域分配颜色，使得相邻的区域不同色。 (b) 将地图着色问题表示成约束图
+\end{figure}
+
+\paragraph{解}
+以下列出了 AC-3 算法的执行过程：
+\begin{enumerate}[i]
+    \item 删除边\textit{SA}-\textit{WA}，从\textit{SA}的值域中删除\textit{green}，剩余\{\textit{red}, \textit{blue}\}
+    \item 删除边\textit{SA}-\textit{V}，从\textit{SA}的值域中删除\textit{red}，剩余\{\textit{blue}\}
+    \item 删除边\textit{NT}-\textit{WA}，从\textit{NT}的值域中删除\textit{green}，剩余\{\textit{red}, \textit{blue}\}
+    \item 删除边\textit{NT}-\textit{SA}，从\textit{NT}的值域中删除\textit{blue}，剩余\{\textit{red}\}
+    \item 删除边\textit{NSW}-\textit{SA}，从\textit{NSW}的值域中删除\textit{blue}，剩余\{\textit{red}, \textit{green}\}
+    \item 删除边\textit{NSW}-\textit{V}，从\textit{NSW}的值域中删除\textit{green}，剩余\{\textit{green}\}
+    \item 删除边\textit{Q}-\textit{NT}，从\textit{Q}的值域中删除\textit{red}，剩余\{\textit{blue}, \textit{green}\}
+    \item 删除边\textit{Q}-\textit{SA}，从\textit{Q}的值域中删除\textit{blue}，剩余\{\textit{green}\}
+    \item 删除边\textit{Q}-\textit{NSW}，从\textit{Q}的值域中删除\textit{green}，剩余$\varnothing$，返回\texttt{false}
+\end{enumerate}
+因此部分赋值$\{WA = red,\ V = blue\}$不相容。
+
+\section{Exercise 6.12}
+用 AC-3 算法求解树结构 CSP 在最坏情况下的复杂度是多少？
+
+\paragraph{解}
+在树结构 CSP 中，最坏情况下，考虑每一条弧各一次，因此算法的复杂度是$O(ED)$，其中$E$是树结构中边的数量，$D$是最大的域的大小
 \end{document}
