@@ -4,10 +4,27 @@
 \usepackage[utf8]{inputenc}
 \usepackage{titlesec}
 \usepackage{xcolor}
+\usepackage[colorlinks, linkcolor = black]{hyperref}
 \usepackage{tikz}
+\usepackage{mathpazo}
 \usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{amsthm}
 \usetikzlibrary{positioning}
 \usetikzlibrary[arrows, shapes, chains]
+\newcounter{row}
+\newcounter{col}
+
+\newcommand\setrow[3]{
+  \setcounter{col}{1}
+  \foreach \n in {#1, #2, #3} {
+    \edef\x{\value{col} - 0.5}
+    \edef\y{3.5 - \value{row}}
+    \node[anchor = center] at (\x, \y) {\n};
+    \stepcounter{col}
+  }
+  \stepcounter{row}
+}
 
 \titleformat{\section}[block]{\LARGE\scshape}{\arabic{section}}{1em}{}[]
 
@@ -20,7 +37,7 @@
     level 2/.style = {sibling distance = 30em},
     level 3/.style = {sibling distance = 20em},
     level 4/.style = {sibling distance = 8em},
-    level 5/.style = {sibling distance = 10em},
+    level 5/.style = {sibling distance = 10em}
 }
 
 \title{Homework 2}
@@ -223,7 +240,7 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
     }
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
     \subfigure
     {
@@ -406,6 +423,73 @@ Romania 问题中到 Bucharest 的直线距离如表所示：
     \label{figure:1}
 \end{figure}
 
+\section{Exercise 3.25}
+\textbf{启发式路径算法}（Pohl，1977）是一种最佳优先搜索，它的评估函数是$f(n) = (2 - w)g(n) + wh(n)$，假设 $h$ 是可采纳的。$w$取什么值能保证算法是最优的？当$w = 0,\ w = 1,\ w = 2$时，分别是什么搜索算法？
 
+\paragraph{解}
+由于 $h$ 是可采纳的，为了保证一致性，应有：
+\begin{equation*}
+    \left\{
+        \begin{aligned}
+            & 2 - w > 0 \\
+            & w \geq 0
+        \end{aligned}
+    \right.
+\end{equation*}
+同时成立，即 $0 \leq w < 2$ 时算法是最优的。
+
+当$w = 0$时，$f(n) = 2g(n)$，算法退化为（带有常系数的）一致代价搜索；当$w = 1$时，$f(n) = g(n) + h(n)$，算法即A$^*$搜索；当$w = 2$时，算法是（带有常系数的）贪婪最佳优先搜索。
+
+\section{Exercise 3.28}
+设计一个启发函数，它在八数码问题中有时会估计过高，并指出对某一特定问题它会求出次优解（可以用计算机编程找出）。证明：如果$h$被高估的部分不超过$c$，A$^*$算法返回的解代价比最优解代价多出的部分也不超过$c$。
+
+\paragraph{解}
+启发式函数为不在位的棋子数与所有棋子到其目标位置的曼哈顿距离和之和，即$h = h_1 + h_2$。对于如图\ref{figure:2}的状态
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=.5]
+        \begin{scope}
+          \draw[very thick] (0, 0) grid (3, 3);
+          \setcounter{row}{1}
+          \setrow {1}{ }{2}
+          \setrow {3}{4}{5}
+          \setrow {6}{7}{8}
+        \end{scope}
+    \end{tikzpicture}
+    \label{figure:2}
+    \caption{一个在八数码问题中估计过高的实例}
+\end{figure}
+其启发式函数为$h = 1 + 1 = 2$，高于其实际的解代价1。
+\begin{proof}
+    设$h$被高估的部分不超过$c$，即$h(n) \leq h^*(n) + c$，则对于最优解路径上的任意结点$n$，有
+    \begin{align*}
+        f(n) = & g(n) + h(n) \\
+        \leq & g(n) + h^*(n) + c \\
+        \leq & C^* + c
+    \end{align*}
+    即A$^*$算法返回的解代价比最优解代价多出的部分也不超过$c$。
+\end{proof}
+
+\section{Exercise 3.29}
+证明如果启发式是一致的，它一定是可采纳的。构造一个非一致的可采纳启发式。
+
+\paragraph{解}
+设启发式$h(n)$是一致的，即对于每个结点$n$和通过任一行动$a$生成的$n$的每个后继结点$n'$，从结点$n$到达目标的估计代价不大于从$n$到$n'$的单步代价与从$n'$到达目标的估计代价之和：$$h(n) \leq c(n,\, a,\, n') + h(n')$$
+\begin{proof}
+    对从$n$到任何目标的最短路径上的结点数$k$进行归纳：
+
+    当$k = 1$时，取目标结点即$n'$，则$h(n) \leq c(n,\, a,\, n') + h(n')$成立。
+
+    当$k \leq 1$时，假设$h(n')$是可采纳的，则有
+    \begin{equation*}
+        h(n) \leq c(n,\, a,\, n') + h(n') \leq c(n,\, a,\, n') + h^*(n') = h^*(n)
+    \end{equation*}
+    即$h(n)$对$k + 1$仍是可采纳的。
+
+    综上，$h(n)$是可采纳的。
+\end{proof}
+在 Romania 问题中，如果使用到达 Bucharest 的最少经过一个中间结点的路径距离减去到达后继结点的最大直线距离作为启发式，这个启发式是非一致的，它并不满足三角不等式，但它仍不会给出过高的估计，因此是可采纳的。
+
+\section{Exercise 6.5}
 
 \end{document}
