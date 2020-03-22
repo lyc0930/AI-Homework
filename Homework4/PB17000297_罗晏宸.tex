@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage[colorlinks, linkcolor = black]{hyperref}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\title{Homework 4}
+\author{PB17000297 罗晏宸}
+\date{March 22 2020}
+
+\begin{document}
+\maketitle
+
+\section{Exercise 7.13}
+本题考虑子句和蕴涵语句之间的关系。
+\subparagraph{a}
+证明子句$(\lnot P_1 \lor \cdots \lor \lnot P_m \lor Q)$逻辑等价于蕴涵语句$(P_1 \land \cdots \land P_m) \Rightarrow Q$。
+\subparagraph{b}
+证明每个子句（不管正文字的数量）都可以写成$(P_1 \land \cdots \land P_m) \Rightarrow (Q_1 \lor \cdots \lor Q_n)$的形式，其中$P_i$和$Q_i$都是命题词。由这类语句构成的知识库是表示为\textbf{蕴涵范式}或称\textbf{Kowalski 范式}（Kowalski, 1979）。
+\subparagraph{c}
+写出蕴涵范式语句的完整归结规则。
+
+\paragraph{解}
+\subparagraph{a}
+\begin{proof}
+    由De Morgan律，有
+    \begin{equation*}
+        (\lnot P_1 \lor \cdots \lor \lnot P_m \lor Q) \equiv (\lnot (P_1 \land \cdots \land P_m) \lor Q)
+    \end{equation*}
+    由蕴涵消去，有
+    \begin{equation*}
+        (\lnot (P_1 \land \cdots \land P_m) \lor Q) \equiv ((P_1 \land \cdots \land P_m) \Rightarrow Q)
+    \end{equation*}
+\end{proof}
+
+\subparagraph{b}
+\begin{proof}
+对于一个子句，假设其中有$n$个正文字，分别为$Q_1,\, Q_2,\, \cdots,\, Q_n$，有$m$个负文字，分别为$\lnot P_1,\, \lnot P_2,\, \cdots,\, \lnot P_m$，则这个子句可以表示为$$\lnot P_1 \lor \cdots \lor \lnot P_m \lor Q_1 \lor \cdots \lor Q_n$$，由上可知
+\begin{equation*}
+    (\lnot P_1 \lor \cdots \lor \lnot P_m \lor Q_1 \lor \cdots \lor Q_n) \equiv ((P_1 \land \cdots \land P_m) \Rightarrow (Q_1 \lor \cdots \lor Q_n))
+\end{equation*}
+\end{proof}
+
+\subparagraph{c}
+应用于蕴涵范式的全归结规则如下：
+\begin{equation*}
+\resizebox{\linewidth}{!}{%
+    $\displaystyle \frac{(p_1 \land \cdots \land p_m) \Rightarrow (q_1 \lor \cdots \lor q_n), \qquad (r_1 \land \cdots \land r_l) \Rightarrow (s_1 \lor \cdots \lor s_k)}{(p_1 \land \cdots \land p_{i - 1} \land p_{i + 1} \land \cdots \land p_m \land r_1 \land \cdots \land r_l) \Rightarrow (q_1 \lor \cdots \lor q_n \lor s_1 \lor \cdots \lor s_{j - 1} \lor s_{j + 1} \lor \cdots \lor s_k)}$
+}
+\end{equation*}
+其中每一个$p$,$q$,$r$,$s$都是文字，且$p_i = s_j$。
+\section{Supplementary Exercise}
+证明Forward Chaining algorithm的完备性
+
+\paragraph{解}
+\begin{proof}
+    前向链接是完备的即每个被蕴涵的原子语句都可以推导得出。考察\textit{inferred}表的最终状态（在算法到达不动点以后，不会再出现新的推理）。该表把推导出的每个符号设为\textit{true}，而其他符号为\textit{false}。可以把此表看作一个逻辑模型；而且，原始\textit{KB}中的每个限定子句在该模型中都为真。假设相反的情况成立，即某个子句$a_1 \land \cdots \land a_k \Rightarrow b$在此模型下为假。那么$a_1 \land \cdots \land a_k$在模型中必须为真，$b$必须为假。但这与算法已到达一个不动点的假设矛盾。因此在不动点推导出的原子语句集定义了原始\textit{KB}的一个模型。更进一步，被\textit{KB}蕴涵的任一原子语句$q$在它的所有模型中为真，尤其是这个模型。因此每个被蕴涵的语句$q$都可以被算法推导得出。
+\end{proof}
+
+\end{document}
