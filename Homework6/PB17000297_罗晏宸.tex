@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage[colorlinks, linkcolor = black]{hyperref}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary[arrows, shapes, chains]
+
+\setlist{
+    leftmargin = .1\linewidth,
+    % rightmargin = .1\linewidth,
+    % label=\emph{\alph*}.
+}
+
+\titleformat{\section}[block]{\LARGE\scshape}{\arabic{section}}{1em}{}[]
+
+\title{Homework 6}
+\author{PB17000297 罗晏宸}
+\date{April 6 2020}
+
+\begin{document}
+\maketitle
+
+\section{Exercise 13.15}
+在一年一度的体检之后，医生告诉你一些坏消息和一些好消息。坏消息是你在一种严重的疾病的测试结果呈阳性，而这个测试的准确度为99\%（即当你确实患这种病时，测试结果为阳性的概率为0.99；而当你未患这种疾病时测试结果为阴性的概率也是0.99）。好消息是，这是一种罕见的病，在你这个年龄段大约10000人中才有1例。为什么“这种病很罕见”对于你而言是一个好消息？你确实患有这种病的概率是多少？
+
+\paragraph{解}
+
+
+\section{Exercise 13.18}
+假设给你一只袋子，装有$n$个无偏差的硬币，并且告诉你其中$n - 1$个硬币是正常的，一面是正面而另一面是反面。不过剩余1枚硬币是伪造的，它的两面都是正面。
+\subparagraph{a} 假设你把手伸进口袋均匀随机地取出一枚硬币，把它抛出去，硬币落地后正面朝上。那么你取出伪币的（条件）概率是多少？
+\subparagraph{b} 假设你不停地抛这枚硬币，一共抛了$k$次，而且看到$k$次正面向上。那么你取出伪币的条件概率是多少？
+\subparagraph{c} 假设你希望通过把取出的硬币抛$k$次的方法来确定它是不是伪造的。如果抛$k$次后都是正面朝上，那么决策过程返回\textit{fake}（伪造），否则返回 \textit{normal} （正常）。这个过程发生错误的（无条件）概率是多少？
+
+\paragraph{解}
+\subparagraph{a}
+\subparagraph{b}
+\subparagraph{c}
+
+\section{Exercise 13.22}
+文本分类是基于文本内容将给定的一个文档分类成固定的几个类中的一类。朴素贝叶斯模型经常用于这个问题。在朴素贝叶斯模型中，查询（query）变量是这个文档的类别，而结果（effect）变量是语言中每个单词的存在与否；假设文档中单词的出现是独立的，单词的出现频率由文档类别决定。
+\subparagraph{a} 给定一组已经被分类的文档，准确解释如何构造这样的模型。
+\subparagraph{b} 准确解释如何分类一个新文档。
+\subparagraph{c} 题目中的条件独立性假设合理吗？请讨论。
+
+\paragraph{解}
+\subparagraph{a}
+\subparagraph{b}
+\subparagraph{c}
+
+\end{document}
