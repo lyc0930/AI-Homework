@@ -36,33 +36,114 @@
 已知正例点$\boldsymbol{x}_1 = (1, 2)^\mathbf{T}$, $\boldsymbol{x}_2 = (2, 3)^\mathbf{T}$, $\boldsymbol{x}_3 = (3, 3)^\mathbf{T}$，负例点$\boldsymbol{x}_4 = (2, 1)^\mathbf{T}$, $\boldsymbol{x}_5 = (3, 2)^\mathbf{T}$, 试求 Hard Margin SVM 的最大间隔分离超平面和分类决策函数，并在图上画出分离超平面、间隔边界以及支持向量。
 
 \paragraph{解}
-在 2 维空间中设 1 维超平面（即直线）方程为$\boldsymbol{\omega} \cdot \boldsymbol{x} - b = (A, B) \cdot (x, y)^\mathbf{T} + C = Ax + By + C = 0$。为避免歧义，用$x_i$与$y_i$表示点$\boldsymbol{x}_1$的分量，也即在二维空间中的坐标。平行的两个间隔边界间距为$\dfrac{\left|C_1 - C_2\right|}{\sqrt{A^2 + B^2}}$，对于数据集求间距的最大值点，即求
-\begin{equation*}
-    \arg\max
-    \left\{
+按照训练集数据构造约束最优化问题
+\begin{align*}
+     & \min_{\boldsymbol{\omega},b}{\frac{1}{2}(\omega_1^2 + \omega_2^2)} \label{1.1} \tag{1.1} \\
+     & \operatorname{s.t.} \left\{
     \begin{aligned}
-         & \frac{\left|2B-A\right|}{\sqrt{A^2+B^2}}, & -2 \leqslant           & \frac{A}{B} < -1,            &  & C_1 = -3A - 3B, &  & C_2 = -2A - B  \\
-         & \frac{\left|B\right|}{\sqrt{A^2+B^2}},    & -1 \leqslant           & \frac{A}{B}  < -\frac{1}{2}, &  & C_1 = -3A - 3B, &  & C_2 = -3A - 2B \\
-         & \frac{\left|2 A\right|}{\sqrt{A^2+B^2}},  & -\frac{1}{2} \leqslant & \frac{A}{B} \leqslant 0,     &  & C_1 = -A - 2B , &  & C_2 = -3A - 2B \\
+        \phantom{1}\omega_1 + 2\omega_2 + b  & \geqslant 1 \\
+        2\omega_1 + 3\omega_2 + b            & \geqslant 1 \\
+        3\omega_1 + 3\omega_2 + b            & \geqslant 1 \\
+        -2\omega_1 - \phantom{1}\omega_2 - b & \geqslant 1 \\
+        -3\omega_1 - 2\omega_2 - b           & \geqslant 1
     \end{aligned}
+    \label{1.2} \tag{1.2}
     \right.
-\end{equation*}
-得到
+\end{align*}
+Lagrange 函数
+\begin{align*}
+    L(\boldsymbol{\omega}, b, \boldsymbol{\alpha}) = \frac{1}{2}\Arrowvert\boldsymbol{\omega} \Arrowvert^2 - \sum_{i = 1}^5{\alpha_i y_i (\boldsymbol{\omega} \cdot \boldsymbol{x}_i + b)} + \sum_{i = 1}^5{\alpha_i}
+\end{align*}
+其中，$\boldsymbol{\alpha} = (\alpha_1,\alpha_2,\cdots,\alpha_5)^\mathbf{T}$为 Lagrange 乘子向量
+
+根据 Lagrange 对称性，原问题的对偶问题是极大极小问题
 \begin{equation*}
-    \frac{A}{B} = -\frac{1}{2},\ C_1 = -\frac{3B}{2},\ C_2 = -\frac{B}{2}
+    \max_{\boldsymbol{\alpha}}{\min_{\boldsymbol{\omega},b}{L(\boldsymbol{\omega},b,\boldsymbol{\alpha})}}
 \end{equation*}
+
+\subparagraph{(1)} 求$\displaystyle \min_{\boldsymbol{\omega},b}{L(\boldsymbol{\omega},b,\boldsymbol{\alpha})}$
+
+将 Lagrange 函数$L(\boldsymbol{\omega}, b, \boldsymbol{\alpha})$分别对$\boldsymbol{\omega}$、$b$求偏导数并令其等于0
+\begin{align*}
+     & \nabla_{\boldsymbol{\omega}}{L(\boldsymbol{\omega}, b, \boldsymbol{\alpha})}  = \boldsymbol{\omega} - \sum_{i = 1}^{5}{\alpha_i y_i \boldsymbol{x}_i} = 0 \\
+     & \nabla_{b}{L(\boldsymbol{\omega}, b, \boldsymbol{\alpha})}                    = \sum_{i = 1}^{5}{\alpha_i y_i} = 0
+\end{align*}
+得
+\begin{align*}
+    \boldsymbol{\omega} = & \sum_{i = 1}^{5}{\alpha_i y_i \boldsymbol{x}_i} = (\alpha_1 + 2\alpha_2 + 3\alpha_3 - 2\alpha_4 - 3\alpha_5, 2\alpha_1 + 3\alpha_2 + 3\alpha_3 - \alpha_4 - 2\alpha_5)^\mathbf{T} \\
+                          & \sum_{i = 1}^{5}{\alpha_i y_i} = \alpha_1 + \alpha_2 + \alpha_3 - \alpha_4 - \alpha_5 = 0
+\end{align*}
+代入 Lagrange 函数，得到
+\begin{align*}
+      & \min_{\boldsymbol{\omega},b}{L(\boldsymbol{\omega},b,\boldsymbol{\alpha})}                                                                      \\
+    = & -\frac{1}{2}\sum_{i = 1}^{5}{\sum_{j = 1}^{5}{\alpha_i \alpha_j y_i y_j(\boldsymbol{x}_i \cdot \boldsymbol{x}_j)}} + \sum_{i = 1}^{5}{\alpha_i} \\
+    = & \alpha _1+\alpha _2+\alpha _3+\alpha _4+\alpha _5+                                                                                              \\
+      & \frac{1}{2} \big(-5 \alpha _1^2-16 \alpha _2 \alpha _1-18 \alpha _3 \alpha _1+8 \alpha _4 \alpha _1+14 \alpha _5 \alpha _1                      \\
+      & -13 \alpha _2^2-18 \alpha _3^2-5 \alpha _4^2-13 \alpha _5^2-30 \alpha _2 \alpha _3+14 \alpha _2 \alpha _4                                       \\
+      & +18 \alpha _3 \alpha _4+24 \alpha _2 \alpha _5+30 \alpha _3 \alpha _5-16 \alpha _4 \alpha _5\big)
+\end{align*}
+\subparagraph{(2)} 求$\displaystyle \min_{\boldsymbol{\omega},b}{L(\boldsymbol{\omega},b,\boldsymbol{\alpha})}$对 $\boldsymbol{{\alpha}}$ 的极大
+
+将目标函数转换为极小，得到与之等价的对偶最优化问题
+\begin{align*}
+     & \min_{\boldsymbol{\alpha}}{\frac{1}{2}\sum_{i = 1}^{5}{\sum_{j = 1}^{5}{\alpha_i \alpha_j y_i y_j(\boldsymbol{x}_i \cdot \boldsymbol{x}_j)}} - \sum_{i = 1}^{5}{\alpha_i}} \label{2.1} \tag{2.1} \\
+     & \operatorname{s.t.} \left\{
+    \begin{aligned}
+        \alpha _1+ \alpha _2+ \alpha _3- \alpha _4- \alpha _5 & = 0                                  \\
+        \alpha_i                                              & \geqslant 0, \quad i = 1, 2, 3, 4, 5
+    \end{aligned}
+    \label{2.2} \tag{2.2}
+    \right.
+\end{align*}
+解得$\boldsymbol{\alpha}^* = (-2, 5, -3, 0, 0)^\mathbf{T}$。
+考虑原始最优化问题\eqref{1.1}$\sim$\eqref{1.2}和对偶最优化问题\eqref{2.1}$\sim$\eqref{2.2}，由$\alpha^*_2 = 5 > 0$原始最优化问题有解
+\begin{align*}
+    \boldsymbol{\omega}^* & = \sum_{i = 1}^{5}{\alpha_i^* y_i \boldsymbol{x}_i} = (-1, 2)^\mathbf{T}             \\
+    b^*                   & = \boldsymbol{1 - \sum_{i = 1}^{5}{\alpha_i^* y_i(\boldsymbol{x}_i \cdot x_2)}} = -2
+\end{align*}
+于是最大间隔分离超平面为
+\begin{equation*}
+    -\boldsymbol{x}^{(1)} + 2 \boldsymbol{x}^{(2)} - 2 = 0
+\end{equation*}
+其中$\boldsymbol{x}_1 = (1, 2)^\mathbf{T}$, $\boldsymbol{x}_3 = (3, 3)^\mathbf{T}$与$\boldsymbol{x}_5 = (3, 2)^\mathbf{T}$为支持向量
+，如图\ref{SVM}所示。
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{Figure/SVM.pdf}
     \caption{最大间隔分离器、间隔边界与支持向量}
     \label{SVM}
 \end{figure}
-如图\ref{SVM}所示，最大间隔分离超平面$\{\boldsymbol{x} : \boldsymbol{\omega} \cdot \boldsymbol{x} - b = 0\}$，其中$\boldsymbol{\omega} = (-1, 2),\ b = 2$，即
-\begin{equation*}
-    \{\boldsymbol{x} : -x + 2y - 2= 0\}
-\end{equation*}
 分类决策函数为
 \begin{equation*}
-    h(x) = \sign{\{\boldsymbol{\omega} \cdot \boldsymbol{x} - b\}} = \sign{\{ -x + 2y - 2\}}
+    f(x) = \sign{\left\{\sum_{i = 1}^{5}{\alpha^*_i y_i (x \cdot \boldsymbol{x}_i)} + b^* \right\}} = \sign{\{ -\boldsymbol{x}^{(1)} + 2\boldsymbol{x}^{(2)} - 2\}}
 \end{equation*}
+% 在 2 维空间中设 1 维超平面（即直线）方程为$\boldsymbol{\omega} \cdot \boldsymbol{x} - b = (A, B) \cdot (x, y)^\mathbf{T} + C = Ax + By + C = 0$。为避免歧义，用$x_i$与$y_i$表示点$\boldsymbol{x}_1$的分量，也即在二维空间中的坐标。平行的两个间隔边界间距为$\dfrac{\left|C_1 - C_2\right|}{\sqrt{A^2 + B^2}}$，对于数据集求间距的最大值点，即求
+% \begin{equation*}
+%     \arg\max
+%     \left\{
+%     \begin{aligned}
+%          & \frac{\left|2B-A\right|}{\sqrt{A^2+B^2}}, & -2 \leqslant           & \frac{A}{B} < -1,            &  & C_1 = -3A - 3B, &  & C_2 = -2A - B  \\
+%          & \frac{\left|B\right|}{\sqrt{A^2+B^2}},    & -1 \leqslant           & \frac{A}{B}  < -\frac{1}{2}, &  & C_1 = -3A - 3B, &  & C_2 = -3A - 2B \\
+%          & \frac{\left|2 A\right|}{\sqrt{A^2+B^2}},  & -\frac{1}{2} \leqslant & \frac{A}{B} \leqslant 0,     &  & C_1 = -A - 2B , &  & C_2 = -3A - 2B \\
+%     \end{aligned}
+%     \right.
+% \end{equation*}
+% 得到
+% \begin{equation*}
+%     \frac{A}{B} = -\frac{1}{2},\ C_1 = -\frac{3B}{2},\ C_2 = -\frac{B}{2}
+% \end{equation*}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width = \textwidth]{Figure/SVM.pdf}
+%     \caption{最大间隔分离器、间隔边界与支持向量}
+%     \label{SVM}
+% \end{figure}
+% 如图\ref{SVM}所示，最大间隔分离超平面$\{\boldsymbol{x} : \boldsymbol{\omega} \cdot \boldsymbol{x} - b = 0\}$，其中$\boldsymbol{\omega} = (-1, 2),\ b = 2$，即
+% \begin{equation*}
+%     \{\boldsymbol{x} : -x + 2y - 2= 0\}
+% \end{equation*}
+% 分类决策函数为
+% \begin{equation*}
+%     h(x) = \sign{\{\boldsymbol{\omega} \cdot \boldsymbol{x} - b\}} = \sign{\{ -x + 2y - 2\}}
+% \end{equation*}
 \end{document}
